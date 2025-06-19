@@ -273,7 +273,7 @@ export default function Home() {
   }, [authToken]);
 
   // Backend API base URL - change this to match your backend server
-  const API_BASE_URL = 'http://127.0.0.1:8000'; // Change this if your backend runs on a different port
+  const API_BASE_URL = 'https://spotmyfilesbackend.onrender.com/'; // Change this if your backend runs on a different port
 
   const checkAuthStatus = async () => {
     if (!authToken) return;
