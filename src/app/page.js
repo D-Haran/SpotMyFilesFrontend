@@ -194,7 +194,7 @@ export default function Home() {
   const [decodeStartTime, setDecodeStartTime] = useState(null);
   const [clientId, setClientId] = useState("");
   const [clientSecret, setClientSecret] = useState("");
-  const [redirectUri, setRedirectUri] = useState("https://spotmyfiles.vercel.app");
+  const [redirectUri, setRedirectUri] = useState("https://spotmyfilesbackend.onrender.com/callback");
   const [showCredentialsModal, setShowCredentialsModal] = useState(false);
 
   const loadingMessages = [
