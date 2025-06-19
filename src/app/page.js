@@ -29,6 +29,8 @@ export default function Home() {
   const [clientSecret, setClientSecret] = useState("");
   const [redirectUri, setRedirectUri] = useState("https://spotmyfilesbackend-1.onrender.com");
   const [showCredentialsModal, setShowCredentialsModal] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
+
 
   const loadingMessages = [
     { time: 0, message: "🎵 Decoding your Spotify playlist..." },
@@ -36,8 +38,7 @@ export default function Home() {
     { time: 7000, message: "⏳ This is taking a while... patience, young padawan!" },
     { time: 12000, message: "😅 Still working on it... maybe grab a coffee?" },
     { time: 18000, message: "🎬 Oh hey, while we're here, you should subscribe to my channel! 😉" },
-    { time: 25000, message: "🐢 Good things come to those who wait..." },
-    { time: 35000, message: "🎪 Fun fact: Spotify has over 100 million songs!" },
+    { time: 25000, message: "🐢 Good things come to those who wait... I guess?" },
     { time: 45000, message: "🚀 Almost there... probably... maybe..." },
     { time: 60000, message: "🎯 This file must be REALLY encoded well!" }
   ];
@@ -308,7 +309,7 @@ export default function Home() {
       setError("Please enter both Client ID and Client Secret");
       return;
     }
-
+    setLoginLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
@@ -326,6 +327,8 @@ export default function Home() {
       window.location.href = data.auth_url;
     } catch (err) {
       setError(`Failed to initiate login: ${err.message}`);
+    }finally {
+      setLoginLoading(false);
     }
   };
   
@@ -579,7 +582,20 @@ export default function Home() {
     Deermageddon
   </a>
 </p>
-          <p className="text-white text-base font-medium">You need to sign in with Spotify to use this tool</p>
+<div className="mt-4">
+  <div className="aspect-w-16 aspect-h-9">
+    <iframe
+      className="w-full rounded-lg border border-[#282828] mb-4"
+      src="https://www.youtube.com/embed/2ggD9DmwsQ4"
+      title="YouTube video player"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    ></iframe>
+  </div>
+</div>
+
+          <p className="text-white text-base font-medium">You need to sign in with Spotify to use this app</p>
         </div>
 
         <div className="w-full max-w-sm bg-[#121212] rounded-lg p-8 border border-[#282828]">
@@ -640,12 +656,19 @@ export default function Home() {
               </div>
             </div>
             <button 
-             onClick={handleLogin}
-             disabled={!clientId || !clientSecret}
-             className="w-full bg-[#1db954] hover:bg-[#1ed760] disabled:bg-[#535353] disabled:text-[#b3b3b3] text-black font-bold py-4 px-6 rounded-full transition-colors duration-200 text-sm tracking-wide cursor-pointer"
-           >
-             LOG IN WITH SPOTIFY
-           </button>
+  onClick={handleLogin}
+  disabled={!clientId || !clientSecret || loginLoading}
+  className="w-full bg-[#1db954] hover:bg-[#1ed760] disabled:bg-[#535353] disabled:text-[#b3b3b3] text-black font-bold py-4 px-6 rounded-full transition-colors duration-200 text-sm tracking-wide cursor-pointer flex items-center justify-center"
+>
+  {loginLoading ? (
+    <div className="flex items-center gap-2">
+      <div className="animate-spin rounded-full h-4 w-4 border-2 border-black border-t-transparent"></div>
+      Logging in...
+    </div>
+  ) : (
+    "LOG IN WITH SPOTIFY"
+  )}
+</button>
            
          </div>
          <button 
