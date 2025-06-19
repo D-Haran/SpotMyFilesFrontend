@@ -316,7 +316,7 @@ export default function Home() {
         body: JSON.stringify({
           client_id: clientId,
           client_secret: clientSecret,
-          redirect_uri: API_BASE_URL
+          redirect_uri: 'https://spotmyfilesbackend.onrender.com/auth/callback'
         })
       });
   
