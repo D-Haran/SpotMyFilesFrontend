@@ -27,7 +27,7 @@ export default function Home() {
   const [decodeStartTime, setDecodeStartTime] = useState(null);
   const [clientId, setClientId] = useState("");
   const [clientSecret, setClientSecret] = useState("");
-  const [redirectUri, setRedirectUri] = useState("https://spotmyfilesbackend.onrender.com");
+  const [redirectUri, setRedirectUri] = useState("https://spotmyfilesbackend-1.onrender.com");
   const [showCredentialsModal, setShowCredentialsModal] = useState(false);
 
   const loadingMessages = [
@@ -274,7 +274,7 @@ export default function Home() {
   }, [authToken]);
 
   // Backend API base URL - change this to match your backend server
-  const API_BASE_URL = 'https://spotmyfilesbackend.onrender.com'; // Change this if your backend runs on a different port
+  const API_BASE_URL = 'https://spotmyfilesbackend-1.onrender.com'; // Change this if your backend runs on a different port
 
   const checkAuthStatus = async () => {
     if (!authToken) return;
@@ -318,7 +318,7 @@ export default function Home() {
         body: JSON.stringify({
           client_id: clientId,
           client_secret: clientSecret,
-          redirect_uri: 'https://spotmyfilesbackend.onrender.com/auth/callback'
+          redirect_uri: 'https://spotmyfilesbackend-1.onrender.com/auth/callback'
         })
       });
   
@@ -642,18 +642,19 @@ export default function Home() {
             <button 
              onClick={handleLogin}
              disabled={!clientId || !clientSecret}
-             className="w-full bg-[#1db954] hover:bg-[#1ed760] disabled:bg-[#535353] disabled:text-[#b3b3b3] text-black font-bold py-4 px-6 rounded-full transition-colors duration-200 text-sm tracking-wide"
+             className="w-full bg-[#1db954] hover:bg-[#1ed760] disabled:bg-[#535353] disabled:text-[#b3b3b3] text-black font-bold py-4 px-6 rounded-full transition-colors duration-200 text-sm tracking-wide cursor-pointer"
            >
              LOG IN WITH SPOTIFY
            </button>
-           <button 
+           
+         </div>
+         <button 
   onClick={() => setShowCredentialsModal(true)}
   className="w-full mt-4 bg-transparent border border-[#1db954] text-[#1db954] hover:bg-[#1db954] hover:text-black font-bold py-3 px-6 rounded-full transition-colors duration-200 text-sm cursor-pointer"
 
 >
   Need help with this part?
 </button>
-         </div>
        </div>
 
        {/* Credentials Modal */}
