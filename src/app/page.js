@@ -570,7 +570,7 @@ export default function Home() {
             </svg>
           </div>
           <h1 className="text-4xl font-black mb-4 tracking-tight">SpotMyFiles</h1>
-          <p className="text-[#b3b3b3] text-lg mb-4">Convert any file into a Spotify playlist</p>
+          <p className="text-[#b3b3b3] text-lg mb-4">Convert files into a Spotify playlist</p>
           <p className="text-[#b3b3b3] text-lg mb-3">
   Created by{" "}
   <a 
