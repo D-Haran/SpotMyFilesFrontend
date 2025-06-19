@@ -104,7 +104,6 @@ const SpotifyCredentialsModal = ({ isOpen, onClose }) => {
                       <ul className="space-y-1 text-sm">
                         <li className="text-[#b3b3b3]">• <span className="text-white">App Name:</span> Any name you like</li>
                         <li className="text-[#b3b3b3]">• <span className="text-white">App Description:</span> File encoding tool</li>
-                        <li className="text-[#b3b3b3]">• <span className="text-white">Redirect URI:</span> <code className="bg-[#282828] px-2 py-1 rounded text-[#1db954]">http://localhost:3000</code></li>
                       </ul>
                     </div>
                   </div>
@@ -195,7 +194,7 @@ export default function Home() {
   const [decodeStartTime, setDecodeStartTime] = useState(null);
   const [clientId, setClientId] = useState("");
   const [clientSecret, setClientSecret] = useState("");
-  const [redirectUri, setRedirectUri] = useState("http://localhost:3000");
+  const [redirectUri, setRedirectUri] = useState("https://spotmyfilesbackend.onrender.com");
   const [showCredentialsModal, setShowCredentialsModal] = useState(false);
 
   const loadingMessages = [
@@ -317,7 +316,7 @@ export default function Home() {
         body: JSON.stringify({
           client_id: clientId,
           client_secret: clientSecret,
-          redirect_uri: redirectUri
+          redirect_uri: API_BASE_URL
         })
       });
   
@@ -626,7 +625,7 @@ export default function Home() {
               <div>
                 <label className="block text-sm font-medium text-white mb-1">Redirect URI</label>
                 <Input
-                  placeholder="http://localhost:3000"
+                  placeholder={API_BASE_URL}
                   value={redirectUri}
                   onChange={(e) => setRedirectUri(e.target.value)}
                   className="w-full bg-[#2a2a2a] border border-[#404040] text-white placeholder-[#b3b3b3] focus:border-[#1db954] focus:ring-1 focus:ring-[#1db954]"
