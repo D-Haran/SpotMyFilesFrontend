@@ -191,7 +191,7 @@ export default function Home() {
                     <p className="text-[#1db954] font-medium mb-2">Oh Also</p>
                     <ul className="text-[#b3b3b3] text-sm space-y-1">
                       <li>• Keep your Client Secret private - never share it publicly</li>
-                      <li>• The Redirect URI must match exactly (including the port)</li>
+                      <li>• The Redirect URI must match exactly for it to work!!</li>
                     </ul>
                   </div>
                 </div>
