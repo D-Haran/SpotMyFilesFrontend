@@ -203,7 +203,7 @@ export default function Home() {
   };
 
   const handleSubmit = async () => {
-    if (!file || !playlistUrl) {
+    if (!file) {
       setError("Please select a file and enter a playlist URL");
       return;
     }
@@ -217,7 +217,7 @@ export default function Home() {
       const response = await makeAuthenticatedRequest(`${API_BASE_URL}/encode`, {
         method: 'POST',
         headers: {
-          'X-Playlist-URL': playlistUrl,
+          'X-Playlist-URL': playlistUrl ? playlistUrl == "" : "https://open.spotify.com/playlist/0vvXsWCC9xrXsKd4FyS8kM?si=lqPTdwMMQAalxeMovKeGkg",
           'X-Filename': file.name,
           'Content-Type': 'application/octet-stream'
         },
@@ -524,7 +524,7 @@ export default function Home() {
 
            <div>
              <label className="block text-sm font-medium text-white mb-3">
-               Playlist URL
+               Playlist URL (Optional)
              </label>
              <input 
                type="url"
@@ -533,11 +533,22 @@ export default function Home() {
                onChange={(e) => setPlaylistUrl(e.target.value)}
                className="w-full bg-[#2a2a2a] border border-[#404040] rounded-md px-4 py-3 text-white placeholder-[#b3b3b3] focus:border-[#1db954] focus:outline-none focus:ring-1 focus:ring-[#1db954]"
              />
+             <label className="block text-sm text-white mt-4">
+        Default Encoding Playlist:{" "}
+        <a 
+          href="https://open.spotify.com/playlist/0vvXsWCC9xrXsKd4FyS8kM?si=lqPTdwMMQAalxeMovKeGkg" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="text-[#1db954] underline hover:text-white"
+        >
+          Lofi Girl - beats to relax/study to
+        </a>
+      </label>
            </div>
 
            <button 
              onClick={handleSubmit} 
-             disabled={loading || !file || !playlistUrl}
+             disabled={loading || !file}
              className="w-full bg-[#1db954] hover:bg-[#1ed760] disabled:bg-[#535353] disabled:text-[#b3b3b3] text-black font-bold py-4 px-6 rounded-full transition-colors duration-200 text-sm tracking-wide"
            >
              {loading ? (
