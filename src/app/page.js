@@ -13,6 +13,7 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [authToken, setAuthToken] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
+
   
   const [file, setFile] = useState(null);
   const [playlistUrl, setPlaylistUrl] = useState("");
@@ -25,9 +26,6 @@ export default function Home() {
   const [currentXhr, setCurrentXhr] = useState(null);
   const [loadingMessage, setLoadingMessage] = useState("");
   const [decodeStartTime, setDecodeStartTime] = useState(null);
-  const [clientId, setClientId] = useState("");
-  const [clientSecret, setClientSecret] = useState("");
-  const [redirectUri, setRedirectUri] = useState("https://spotmyfilesbackend-1.onrender.com");
   const [showCredentialsModal, setShowCredentialsModal] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
 
@@ -44,174 +42,6 @@ export default function Home() {
   ];
 
 
-  const SpotifyCredentialsModal = ({ isOpen, onClose }) => {
-    useEffect(() => {
-      const handleEscape = (e) => {
-        if (e.key === 'Escape') {
-          onClose();
-        }
-      };
-      
-      if (isOpen) {
-        document.addEventListener('keydown', handleEscape);
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'unset';
-      }
-      
-      return () => {
-        document.removeEventListener('keydown', handleEscape);
-        document.body.style.overflow = 'unset';
-      };
-    }, [isOpen, onClose]);
-  
-    return (
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={onClose}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            >
-              {/* Modal */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                onClick={(e) => e.stopPropagation()}
-                className="bg-[#181818] rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-[#282828] shadow-xl"
-              >
-                {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-[#1db954] rounded-full flex items-center justify-center">
-                      <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.179-.959-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.361 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/>
-                      </svg>
-                    </div>
-                    <h2 className="text-xl font-bold text-white">Get Your Spotify Credentials</h2>
-                  </div>
-                  <button
-                    onClick={onClose}
-                    className="text-[#b3b3b3] hover:text-white transition-colors p-1"
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-  
-                {/* Content */}
-                <div className="space-y-6">
-                  {/* Step 1 */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <span className="w-6 h-6 bg-[#1db954] rounded-full flex items-center justify-center text-black text-sm font-bold">1</span>
-                      <h3 className="text-lg font-semibold text-white">Create a Spotify App</h3>
-                    </div>
-                    <div className="ml-8 space-y-2">
-                      <p className="text-[#b3b3b3]">Visit the Spotify Developer Dashboard:</p>
-                      <a 
-                        href="https://developer.spotify.com/dashboard" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-[#1db954] hover:text-[#1ed760] transition-colors"
-                      >
-                        https://developer.spotify.com/dashboard
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                        </svg>
-                      </a>
-                      <p className="text-[#b3b3b3]">Log in with your Spotify account and click <span className="text-white font-medium">"Create an App"</span></p>
-                    </div>
-                  </div>
-  
-                  {/* Step 2 */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <span className="w-6 h-6 bg-[#1db954] rounded-full flex items-center justify-center text-black text-sm font-bold">2</span>
-                      <h3 className="text-lg font-semibold text-white">Configure Your App</h3>
-                    </div>
-                    <div className="ml-8 space-y-3">
-                      <div className="bg-[#121212] rounded-lg p-4 border border-[#282828]">
-                        <p className="text-[#b3b3b3] mb-2">Fill in the app details:</p>
-                        <ul className="space-y-1 text-sm">
-                          <li className="text-[#b3b3b3]">• <span className="text-white">App Name:</span> Any name you like</li>
-                          <li className="text-[#b3b3b3]">• <span className="text-white">App Description:</span> SpotMyFiles :)</li>
-                          <li className="text-[#b3b3b3]">• <span className="text-white">Redirect URIs:</span> <b>{redirectUri+"/auth/callback"}</b></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-  
-                  {/* Step 3 */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <span className="w-6 h-6 bg-[#1db954] rounded-full flex items-center justify-center text-black text-sm font-bold">3</span>
-                      <h3 className="text-lg font-semibold text-white">Get Your Credentials</h3>
-                    </div>
-                    <div className="ml-8 space-y-2">
-                      <p className="text-[#b3b3b3]">Once your app is created, you'll see:</p>
-                      <div className="bg-[#121212] rounded-lg p-4 border border-[#282828] space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-white font-medium">Client ID:</span>
-                          <span className="text-[#b3b3b3]">Copy this directly</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-white font-medium">Client Secret:</span>
-                          <span className="text-[#b3b3b3]">Click "Show client secret" to reveal</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-  
-                  {/* Step 4 */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2">
-                      <span className="w-6 h-6 bg-[#1db954] rounded-full flex items-center justify-center text-black text-sm font-bold">4</span>
-                      <h3 className="text-lg font-semibold text-white">Add Yourself as a User</h3>
-                    </div>
-                    <div className="ml-8 space-y-2">
-                      <div className="bg-[#e22134]/10 border border-[#e22134] rounded-lg p-4">
-                        <p className="text-[#e22134] font-medium mb-2">⚠️ Important Step</p>
-                        <p className="text-[#b3b3b3] text-sm">
-                          In your app's dashboard, go to <span className="text-white font-medium">"User Management"</span> and add your own email address. 
-                          Spotify requires users to be explicitly registered to access protected endpoints in development mode.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-  
-                  {/* Additional Notes */}
-                  <div className="bg-[#1db954]/10 border border-[#1db954] rounded-lg p-4">
-                    <p className="text-[#1db954] font-medium mb-2">Oh Also</p>
-                    <ul className="text-[#b3b3b3] text-sm space-y-1">
-                      <li>• Keep your Client Secret private - never share it publicly</li>
-                      <li>• The Redirect URI must match exactly for it to work!!</li>
-                    </ul>
-                  </div>
-                </div>
-  
-                {/* Footer */}
-                <div className="mt-6 pt-4 border-t border-[#282828]">
-                  <button
-                    onClick={onClose}
-                    className="w-full bg-[#1db954] hover:bg-[#1ed760] text-black font-bold py-3 px-6 rounded-full transition-colors duration-200"
-                  >
-                    Got it, thanks!
-                  </button>
-                </div>
-              </motion.div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    );
-  };
   // Check for auth token in URL and localStorage on mount
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -276,6 +106,7 @@ export default function Home() {
 
   // Backend API base URL - change this to match your backend server
   const API_BASE_URL = 'https://spotmyfilesbackend-1.onrender.com'; // Change this if your backend runs on a different port
+  // const API_BASE_URL = 'http://127.0.0.1:8000'; // Change this if your backend runs on a different port
 
   const checkAuthStatus = async () => {
     if (!authToken) return;
@@ -305,32 +136,26 @@ export default function Home() {
   };
 
   const handleLogin = async () => {
-    if (!clientId || !clientSecret) {
-      setError("Please enter both Client ID and Client Secret");
-      return;
-    }
     setLoginLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          client_id: clientId,
-          client_secret: clientSecret,
-          redirect_uri: 'https://spotmyfilesbackend-1.onrender.com/auth/callback'
-        })
       });
   
       const data = await response.json();
-      window.location.href = data.auth_url;
+  
+      if (data.auth_url) {
+        window.location.href = data.auth_url;
+      } else {
+        setError("Failed to get Spotify authorization URL.");
+      }
     } catch (err) {
       setError(`Failed to initiate login: ${err.message}`);
-    }finally {
+    } finally {
       setLoginLoading(false);
     }
   };
+  
   
 
   const handleLogout = async () => {
@@ -605,86 +430,30 @@ export default function Home() {
               This project needs access to a Spotify account to create and manage playlists for file encoding/decoding.
             </p>
             <div className="space-y-4 mb-6">
-              {/* Client ID with Info Button */}
-              <div className="relative">
-  <div className="flex items-center gap-2 mb-1">
-    <label className="text-sm font-medium text-white">Spotify Client ID</label>
-    <button
-      onClick={() => setShowCredentialsModal(true)}
-      className="text-[#b3b3b3] hover:text-[#1db954] transition-colors duration-200 group text-sm"
-      title="Need help finding your Client ID and Secret?"
-    >
-      <div className="flex items-center gap-1">
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
-        </svg>
-        <span className="sr-only">Help</span>
+  <p className="text-sm text-[#b3b3b3] text-center leading-relaxed">
+    You’ll be redirected to Spotify to authorize SpotMyFiles.
+  </p>
+
+
+  <button 
+    onClick={handleLogin}
+    disabled={loginLoading}
+    className="w-full bg-[#1db954] hover:bg-[#1ed760] disabled:bg-[#535353] disabled:text-[#b3b3b3] text-black font-bold py-4 px-6 rounded-full transition-colors duration-200 text-sm tracking-wide cursor-pointer flex items-center justify-center"
+  >
+    {loginLoading ? (
+      <div className="flex items-center gap-2">
+        <div className="animate-spin rounded-full h-4 w-4 border-2 border-black border-t-transparent"></div>
+        Logging in...
       </div>
-    </button>
-  </div>
-  <Input
-    placeholder="Enter your Spotify Client ID"
-    value={clientId}
-    onChange={(e) => setClientId(e.target.value)}
-    className="w-full bg-[#2a2a2a] border border-[#404040] text-white placeholder-[#b3b3b3] focus:border-[#1db954] focus:ring-1 focus:ring-[#1db954]"
-  />
+    ) : (
+      "LOG IN WITH SPOTIFY"
+    )}
+  </button>
 </div>
 
-
-              {/* Client Secret */}
-              <div>
-                <label className="block text-sm font-medium text-white mb-1">Spotify Client Secret</label>
-                <Input
-                  placeholder="Enter your Spotify Client Secret"
-                  value={clientSecret}
-                  onChange={(e) => setClientSecret(e.target.value)}
-                  type="password"
-                  className="w-full bg-[#2a2a2a] border border-[#404040] text-white placeholder-[#b3b3b3] focus:border-[#1db954] focus:ring-1 focus:ring-[#1db954]"
-                />
-              </div>
-
-              {/* Redirect URI */}
-              <div>
-                <label className="block text-sm font-medium text-white mb-1">Redirect URI</label>
-                <Input
-                disabled
-                  placeholder={API_BASE_URL}
-                  value={redirectUri+"/auth/callback"}
-                  onChange={(e) => setRedirectUri(e.target.value)}
-                  className="w-full bg-[#2a2a2a] border border-[#404040] text-white placeholder-[#b3b3b3] focus:border-[#1db954] focus:ring-1 focus:ring-[#1db954]"
-                />
-              </div>
-            </div>
-            <button 
-  onClick={handleLogin}
-  disabled={!clientId || !clientSecret || loginLoading}
-  className="w-full bg-[#1db954] hover:bg-[#1ed760] disabled:bg-[#535353] disabled:text-[#b3b3b3] text-black font-bold py-4 px-6 rounded-full transition-colors duration-200 text-sm tracking-wide cursor-pointer flex items-center justify-center"
->
-  {loginLoading ? (
-    <div className="flex items-center gap-2">
-      <div className="animate-spin rounded-full h-4 w-4 border-2 border-black border-t-transparent"></div>
-      Logging in...
-    </div>
-  ) : (
-    "LOG IN WITH SPOTIFY"
-  )}
-</button>
            
          </div>
-         <button 
-  onClick={() => setShowCredentialsModal(true)}
-  className="w-full mt-4 bg-transparent border border-[#1db954] text-[#1db954] hover:bg-[#1db954] hover:text-black font-bold py-3 px-6 rounded-full transition-colors duration-200 text-sm cursor-pointer"
-
->
-  Need help with this part?
-</button>
        </div>
-
-       {/* Credentials Modal */}
-       <SpotifyCredentialsModal 
-         isOpen={showCredentialsModal} 
-         onClose={() => setShowCredentialsModal(false)} 
-       />
 
        {error && (
          <motion.div
