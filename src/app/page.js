@@ -217,7 +217,7 @@ export default function Home() {
       const response = await makeAuthenticatedRequest(`${API_BASE_URL}/encode`, {
         method: 'POST',
         headers: {
-          'X-Playlist-URL': playlistUrl ? playlistUrl == "" : "https://open.spotify.com/playlist/0vvXsWCC9xrXsKd4FyS8kM?si=lqPTdwMMQAalxeMovKeGkg",
+          'X-Playlist-URL': playlistUrl == "" ? playlistUrl : "https://open.spotify.com/playlist/0vvXsWCC9xrXsKd4FyS8kM?si=lqPTdwMMQAalxeMovKeGkg",
           'X-Filename': file.name,
           'Content-Type': 'application/octet-stream'
         },
