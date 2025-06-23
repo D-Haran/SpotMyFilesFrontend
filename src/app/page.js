@@ -669,7 +669,7 @@ export default function Home() {
       rel="noopener noreferrer" 
       className="text-[#1db954] underline hover:text-[#1ed760] transition-colors"
     >
-      Sample Playlist
+      Sample Playlist: Classified.zip
     </a>
   </p>
 </div>
