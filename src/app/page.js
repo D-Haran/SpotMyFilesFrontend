@@ -28,6 +28,7 @@ export default function Home() {
   const [decodeStartTime, setDecodeStartTime] = useState(null);
   const [showCredentialsModal, setShowCredentialsModal] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
+  const [showServerStartupMessage, setShowServerStartupMessage] = useState(false);
 
 
   const loadingMessages = [
@@ -137,6 +138,11 @@ export default function Home() {
 
   const handleLogin = async () => {
     setLoginLoading(true);
+    setShowServerStartupMessage(false);
+
+    const messageTimeout = setTimeout(() => {
+      setShowServerStartupMessage(true);
+    }, 3000);
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
@@ -152,7 +158,9 @@ export default function Home() {
     } catch (err) {
       setError(`Failed to initiate login: ${err.message}`);
     } finally {
+      clearTimeout(messageTimeout);
       setLoginLoading(false);
+      setShowServerStartupMessage(false);
     }
   };
   
@@ -449,6 +457,18 @@ export default function Home() {
       "LOG IN WITH SPOTIFY"
     )}
   </button>
+  {/* Add this message below the login button */}
+{showServerStartupMessage && (
+  <motion.div
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="p-3 bg-[#b3b3b3]/10 border border-[#b3b3b3]/30 rounded-lg text-center"
+  >
+    <p className="text-[#b3b3b3] text-sm">
+      Sorry for the wait! If my server hasn't been used in a while, it takes a moment to start back up.
+    </p>
+  </motion.div>
+)}
 </div>
 
            
