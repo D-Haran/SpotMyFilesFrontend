@@ -649,19 +649,7 @@ export default function Home() {
              >
                {decodeLoading ? "DECODING..." : "DECODE FILE"}
              </button>
-             <div className="text-center">
-  <p className="text-[#b3b3b3] text-sm">
-    Use this playlist as a sample playlist to decode:{" "}
-    <a 
-      href="https://open.spotify.com/playlist/0LUfO47WJAZhGWFiz58IxC?si=9QEPmVarQrqjAXJs4FhZJg" 
-      target="_blank" 
-      rel="noopener noreferrer" 
-      className="text-[#1db954] underline hover:text-[#1ed760] transition-colors"
-    >
-      Sample Playlist: Classified.zip
-    </a>
-  </p>
-</div>
+        
              
              {decodeLoading && (
                <button 
@@ -672,6 +660,19 @@ export default function Home() {
                </button>
              )}
            </div>
+           <div className="text-center">
+  <p className="text-[#b3b3b3] text-sm">
+    Use this playlist as a sample playlist to decode:{" "}
+    <a 
+      href="https://open.spotify.com/playlist/0LUfO47WJAZhGWFiz58IxC?si=9QEPmVarQrqjAXJs4FhZJg" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      className="text-[#1db954] underline hover:text-[#1ed760] transition-colors"
+    >
+      Sample Playlist
+    </a>
+  </p>
+</div>
          </div>
        </div>
 
