@@ -33,13 +33,7 @@ export default function Home() {
 
   const loadingMessages = [
     { time: 0, message: "🎵 Decoding your Spotify playlist..." },
-    { time: 3000, message: "🔍 Reading through those sweet track mappings..." },
-    { time: 7000, message: "⏳ This is taking a while... patience, young padawan!" },
-    { time: 12000, message: "😅 Still working on it... maybe grab a coffee?" },
-    { time: 18000, message: "🎬 Oh hey, while we're here, you should subscribe to my channel! 😉" },
-    { time: 25000, message: "🐢 Good things come to those who wait... I guess?" },
-    { time: 45000, message: "🚀 Almost there... probably... maybe..." },
-    { time: 60000, message: "🎯 This file must be REALLY encoded well!" }
+    { time: 60000, message: "This file must be REALLY encoded well!" }
   ];
 
 
